@@ -1,0 +1,24 @@
+stages:
+  - build
+
+variables:
+  CI_TEAM_NAME: "esports"
+  CI_APP_NAME: "stats-widget"
+  CI_BUILD_VERSION: "v1.0.$CI_PIPELINE_IID"
+
+docker_build:
+  stage: build
+  script:
+    - printf 'service_status{"product":"%s","name":"%s","team":"%s","version":"%s","branch":"%s","revisionHash":"%s","revisionDate":"%s","buildNumber":"%s"} 1\n' "$PRODUCT_NAME" "$CI_APP_NAME" "$CI_TEAM_NAME" "$CI_BUILD_VERSION" "$CI_COMMIT_REF_NAME" "$CI_COMMIT_SHORT_SHA" "$(git log -1 --format=%ci)" "$CI_BUILD_NUMBER" | tee status.html
+    - cat status.html
+    - docker build -t "$CI_REGISTRY_IMAGE:$CI_BUILD_VERSION" --build-arg build_version=$CI_PIPELINE_IID --build-arg GITLAB_TOKEN=$GITLAB_TOKEN --build-arg GITLAB_USER=$GITLAB_USER --build-arg GITLAB_DOMAIN=$GITLAB_DOMAIN -f Dockerfile .
+    - chmod -R 777 ./
+    - docker login -u "gitlab-ci-token" -p "$CI_BUILD_TOKEN" "$CI_REGISTRY"
+    - docker push "$CI_REGISTRY_IMAGE:$CI_BUILD_VERSION"
+    - docker rmi "$CI_REGISTRY_IMAGE:$CI_BUILD_VERSION"
+  tags:
+    - aws
+    - aws-shell
+    - aws-stage
+  only:
+    - master
