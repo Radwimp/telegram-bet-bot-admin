@@ -33,9 +33,6 @@ const useToolbarStyles = makeStyles(theme => ({
   search: {
     width: 300,
   },
-  icon: {
-    height: 24,
-  },
 }));
 
 const EnhancedTableToolbar = props => {

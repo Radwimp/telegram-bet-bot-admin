@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+
+/* Utils */
 import getBaseUrl from '../../common/utils/getBaseUrl';
 
+/* Components */
 import EnhancedTable from '../../components/EnhancedTable';
 
 const headCells = [

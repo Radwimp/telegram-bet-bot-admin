@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import dayjs from 'dayjs';
 
 /* Utils */
 import getBaseUrl from '../../common/utils/getBaseUrl';
@@ -17,29 +16,26 @@ const headCells = [
   { id: 'actions', label: 'Actions', type: 'actions' },
 ];
 
-const formatTournaments = tournaments =>
-  tournaments.map(tournament => ({
-    ...tournament,
-    id: tournament.pmId,
-    startDate: dayjs(tournament.startDate).format('DD.MM.YY - HH:mm'),
-    endDate: dayjs(tournament.startDate).format('DD.MM.YY - HH:mm'),
+const formatStats = stats =>
+  stats.map(stat => ({
+    ...stat,
   }));
 
-const Tournaments = () => {
-  const [tournaments, setTournaments] = useState([]);
+const Stats = () => {
+  const [stats, setStats] = useState([]);
 
   useEffect(() => {
     axios
-      .get(`${getBaseUrl()}/tournaments`)
-      .then(res => setTournaments(formatTournaments(res.data)));
+      .get(`${getBaseUrl()}/stats`)
+      .then(res => setStats(formatStats(res.data)));
   }, []);
 
   return (
-    tournaments.length && (
+    stats.length && (
       <EnhancedTable
-        name="Tournaments"
+        name="Stats"
         headCells={headCells}
-        initialRows={tournaments}
+        initialRows={stats}
         handleCreate={console.log}
         handleDelete={console.log}
         handleUpdate={console.log}
@@ -48,4 +44,4 @@ const Tournaments = () => {
   );
 };
 
-export default Tournaments;
+export default Stats;
