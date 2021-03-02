@@ -8,7 +8,6 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-
 import Checkbox from '@material-ui/core/Checkbox';
 
 /* Components */
@@ -23,7 +22,7 @@ const useStyles = makeStyles(theme => ({
   },
   paper: {
     width: '100%',
-    marginBottom: theme.spacing(2),
+    marginBottom: theme.spacing(200),
   },
   table: {
     minWidth: 750,
@@ -84,8 +83,9 @@ const EnhancedTable = ({
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalData, setModalData] = useState({});
+  // const buttonStyles = useStylesButton();
+  // const modalStyles = useStylesModal();
   // const [searchValue, setSearchValue] = useState('');
-  console.log(initialRows);
 
   const handleOpenModal = row => {
     setModalData(row);

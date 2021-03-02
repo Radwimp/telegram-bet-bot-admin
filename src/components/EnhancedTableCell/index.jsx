@@ -29,19 +29,10 @@ const EnhancedTableCell = ({
         <TableCell>
           {Array.isArray(row[cell.id]) ? (
             row[cell.id].map(chip => (
-              <Chip
-                color={getColor(row[cell.id])}
-                label={chip.slice(0, 1) + chip.slice(1).toLowerCase()}
-                key={chip}
-              />
+              <Chip color={getColor(row[cell.id])} label={chip} key={chip} />
             ))
           ) : (
-            <Chip
-              color={getColor(row[cell.id])}
-              label={
-                row[cell.id].slice(0, 1) + row[cell.id].slice(1).toLowerCase()
-              }
-            />
+            <Chip color={getColor(row[cell.id])} label={row[cell.id]} />
           )}
         </TableCell>
       );
@@ -73,7 +64,7 @@ const EnhancedTableCell = ({
             <IconButton
               size="small"
               aria-label="delete"
-              onClick={() => handleDeleteItems([row.id])}
+              onClick={() => handleDeleteItems([row._id])}
             >
               <DeleteIcon />
             </IconButton>

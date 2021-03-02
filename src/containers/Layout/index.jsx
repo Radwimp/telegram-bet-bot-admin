@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { makeStyles, rgbToHex } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -139,7 +139,7 @@ const Layout = ({ children }) => {
           </Typography>
           <Tooltip className={classes.tip} title="Telegram Bot">
             <IconButton aria-label="Telegram">
-              <a href="https://t.me/leZooBot">
+              <a href="https://t.me/pmcupbot">
                 <img className={classes.icon} src={Telegram} alt="Telegram" />
               </a>
             </IconButton>
