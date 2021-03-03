@@ -11,7 +11,7 @@ const headCells = [
   { id: 'telegramId', label: 'Telegram ID', type: 'id' },
   { id: 'username', label: 'Username', type: 'text' },
   { id: 'telegramUsername', label: 'Telegram username', type: 'text' },
-  // { id: 'points', label: 'Points', type: 'text' },
+  { id: 'points', label: 'Points', type: 'text' },
   { id: 'actions', label: 'Actions', type: 'actions' },
 ];
 

@@ -19,6 +19,7 @@ const headCells = [
 const formatMatches = matches =>
   matches.map(match => ({
     ...match,
+    id: match._id,
     tournament: match.tournament.name,
     date: dayjs(match.date).format('DD.MM.YY - HH:mm'),
   }));
