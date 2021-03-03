@@ -1,26 +1,37 @@
 import React, { useState } from 'react';
-import {
-  Button,
-  Dialog,
-  Grid,
-  TextField,
-  Typography,
-  makeStyles,
-} from '@material-ui/core';
+import { Button, Grid, TextField, Typography } from '@material-ui/core';
 import { DropzoneDialog } from 'material-ui-dropzone';
 import axios from 'axios';
 import getBaseUrl from '../../common/utils/getBaseUrl';
 
 const Message = () => {
   const [value, setValue] = useState();
-  const [image, setImage] = useState();
+  const [image] = useState();
   const [open, setOpen] = useState(false);
 
-  const sendMessage = (message, image) => {
+  const uploadImage = files => {
+    const [file] = files;
+    // console.log(file);
+    axios
+      .post(
+        `${getBaseUrl()}/static/uploadImage`,
+        {
+          imageName: file.name,
+          file,
+        },
+        {
+          headers: {
+            'Content-Type': file.type,
+          },
+        },
+      )
+      .then(console.log);
+  };
+
+  const sendMessage = message => {
     axios
       .post(`${getBaseUrl()}/users/sendMessage`, {
         message,
-        image,
       })
       .then(() => alert('Message sended'));
   };
@@ -33,9 +44,11 @@ const Message = () => {
         </Typography>
         <Typography variant="h7">
           <span>
-            Сделать жирным - обернуть в &lt;b&gt;text&lt;/b&gt; => <b>text</b>
+            Сделать жирным - обернуть в {'<'}b{'>'}text{'<'}/b{'>'} ={'>'}
+            <b>text</b>
             <br />
-            Сделать курсивом - обернуть в &lt;i&gt;text&lt;/i&gt; => <i>text</i>
+            Сделать курсивом - обернуть в {'<'}i{'>'}text{'<'}/i{'>'} ={'>'}
+            <i>text</i>
           </span>
         </Typography>
       </Grid>
@@ -62,16 +75,12 @@ const Message = () => {
 
         <DropzoneDialog
           filesLimit={1}
-          acceptedFiles={['image/*']}
+          acceptedFiles={['image/png']}
           cancelButtonText="cancel"
           submitButtonText="submit"
-          maxFileSize={5000000}
           open={open}
           onClose={() => setOpen(false)}
-          onSave={files => {
-            console.log('Files:', files);
-            setOpen(false);
-          }}
+          onSave={uploadImage}
         />
       </Grid>
       <Grid item>
