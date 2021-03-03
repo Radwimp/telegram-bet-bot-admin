@@ -35,6 +35,7 @@ const DailyBonus = () => {
       </Grid>
       <Grid item>
         <Button
+          fullWidth
           variant="contained"
           color="primary"
           onClick={() => sendDailyBonus(bonus)}

@@ -7,7 +7,6 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 
 /* Components */
@@ -155,86 +154,84 @@ const EnhancedTable = ({
 
   return (
     <div className={classes.root}>
-      <Paper className={classes.paper}>
-        <EnhancedTableToolbar
-          name={name}
-          numSelected={selected.length}
-          handleAdd={() => handleOpenModal({})}
-          handleDelete={() => handleDeleteItems(selected)}
-          // searchValue={searchValue}
-          // setSearchValue={handleSearch}
-        />
-        <TableContainer>
-          <Table
-            className={classes.table}
-            aria-labelledby="tableTitle"
-            size="medium"
-            aria-label={`${name} table`}
-          >
-            <EnhancedTableHead
-              classes={classes}
-              headCells={headCells}
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAll}
-              onRequestSort={handleRequestSort}
-              rowCount={initialRows.length}
-            />
-            <TableBody>
-              {stableSort(initialRows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map(row => {
-                  const isItemSelected = isSelected(row.id);
+      <EnhancedTableToolbar
+        name={name}
+        numSelected={selected.length}
+        handleAdd={() => handleOpenModal({})}
+        handleDelete={() => handleDeleteItems(selected)}
+        // searchValue={searchValue}
+        // setSearchValue={handleSearch}
+      />
+      <TableContainer>
+        <Table
+          className={classes.table}
+          aria-labelledby="tableTitle"
+          size="medium"
+          aria-label={`${name} table`}
+        >
+          <EnhancedTableHead
+            classes={classes}
+            headCells={headCells}
+            numSelected={selected.length}
+            order={order}
+            orderBy={orderBy}
+            onSelectAllClick={handleSelectAll}
+            onRequestSort={handleRequestSort}
+            rowCount={initialRows.length}
+          />
+          <TableBody>
+            {stableSort(initialRows, getComparator(order, orderBy))
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map(row => {
+                const isItemSelected = isSelected(row.id);
 
-                  return (
-                    <TableRow
-                      hover
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.id}
-                      selected={isItemSelected}
-                    >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          checked={isItemSelected}
-                          onClick={event => handleSelect(event, row.id)}
+                return (
+                  <TableRow
+                    hover
+                    role="checkbox"
+                    aria-checked={isItemSelected}
+                    tabIndex={-1}
+                    key={row.id}
+                    selected={isItemSelected}
+                  >
+                    <TableCell padding="checkbox">
+                      <Checkbox
+                        checked={isItemSelected}
+                        onClick={event => handleSelect(event, row.id)}
+                      />
+                    </TableCell>
+                    {headCells.map(cell => {
+                      return (
+                        <EnhancedTableCell
+                          key={cell.id}
+                          cell={cell}
+                          row={row}
+                          handleUpdate={handleUpdate}
+                          handleOpenModal={handleOpenModal}
+                          handleDeleteItems={handleDeleteItems}
                         />
-                      </TableCell>
-                      {headCells.map(cell => {
-                        return (
-                          <EnhancedTableCell
-                            key={cell.id}
-                            cell={cell}
-                            row={row}
-                            handleUpdate={handleUpdate}
-                            handleOpenModal={handleOpenModal}
-                            handleDeleteItems={handleDeleteItems}
-                          />
-                        );
-                      })}
-                    </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 53 * emptyRows }}>
-                  <TableCell colSpan={7} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[10, 25, 50, { label: 'All', value: -1 }]}
-          component="div"
-          count={initialRows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onChangePage={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
-        />
-      </Paper>
+                      );
+                    })}
+                  </TableRow>
+                );
+              })}
+            {emptyRows > 0 && (
+              <TableRow style={{ height: 53 * emptyRows }}>
+                <TableCell colSpan={7} />
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[10, 25, 50, { label: 'All', value: -1 }]}
+        component="div"
+        count={initialRows.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onChangePage={handleChangePage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+      />
       {/* <TableModal
         name={name}
         open={modalOpen}

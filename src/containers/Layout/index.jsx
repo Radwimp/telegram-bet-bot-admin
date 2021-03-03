@@ -14,6 +14,7 @@ import Container from '@material-ui/core/Container';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import Tooltip from '@material-ui/core/Tooltip';
+import Paper from '@material-ui/core/Paper';
 
 /* Images */
 import Telegram from '../../assets/images/telegram.svg';
@@ -95,6 +96,10 @@ const useStyles = makeStyles(theme => ({
     height: 28,
   },
   tip: { height: 28, width: 28 },
+  paper: {
+    margin: theme.spacing(4),
+    padding: theme.spacing(2),
+  },
 }));
 
 const Layout = ({ children }) => {
@@ -165,9 +170,12 @@ const Layout = ({ children }) => {
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
-        <Container maxWidth="xl" className={classes.container}>
-          <>{children}</>
-        </Container>
+        <Paper className={classes.paper}>
+          <>{children.name}</>
+          <Container maxWidth="xl" className={classes.container}>
+            <>{children}</>
+          </Container>
+        </Paper>
       </main>
     </div>
   );
