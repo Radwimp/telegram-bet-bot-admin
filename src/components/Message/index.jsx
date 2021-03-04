@@ -36,13 +36,15 @@ const Message = () => {
     setOpen(false);
   };
 
-  const sendMessage = text => {
-    axios
-      .post(`${getBaseUrl()}/users/sendMessage`, {
+  const sendMessage = async text => {
+    try {
+      await axios.post(`${getBaseUrl()}/users/sendMessage`, {
         message: text,
         image: imageName,
-      })
-      .then(() => alert('Message sended'));
+      });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
@@ -102,6 +104,10 @@ const Message = () => {
           label="Message"
           variant="outlined"
           multiline
+          error={message.length > (image ? 1024 : 4096)}
+          helperText={
+            message.length > (image ? 1024 : 4096) && 'Превышен лимит символов'
+          }
           rows={6}
           value={message}
           onChange={e => setMessage(e.target.value)}
