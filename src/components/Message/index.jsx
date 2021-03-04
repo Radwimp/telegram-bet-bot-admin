@@ -29,7 +29,7 @@ const Message = () => {
       setImage(URL.createObjectURL(file));
       setImageName(file?.name);
 
-      // await axios.post(`${getBaseUrl()}/static/uploadImage`, data);
+      await axios.post(`${getBaseUrl()}/static/uploadImage`, data);
     } catch (e) {
       console.error('Error in uploading file', e);
     }

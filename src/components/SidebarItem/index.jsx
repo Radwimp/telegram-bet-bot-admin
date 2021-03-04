@@ -35,7 +35,7 @@ const SidebarItem = ({ label, to, Icon }) => {
 SidebarItem.propTypes = {
   label: PropTypes.string.isRequired,
   to: PropTypes.string.isRequired,
-  Icon: PropTypes.func.isRequired,
+  Icon: PropTypes.shape().isRequired,
 };
 
 export default SidebarItem;
