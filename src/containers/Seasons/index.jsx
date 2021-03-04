@@ -25,7 +25,7 @@ const formatTournaments = tournaments =>
     endDate: dayjs(tournament.startDate).format('DD.MM.YY - HH:mm'),
   }));
 
-const Tournaments = () => {
+const Seasons = () => {
   const [tournaments, setTournaments] = useState([]);
 
   useEffect(() => {
@@ -37,7 +37,7 @@ const Tournaments = () => {
   return (
     tournaments.length && (
       <EnhancedTable
-        name="Tournaments"
+        name="Seasons"
         headCells={headCells}
         initialRows={tournaments}
         handleCreate={console.log}
@@ -48,4 +48,4 @@ const Tournaments = () => {
   );
 };
 
-export default Tournaments;
+export default Seasons;

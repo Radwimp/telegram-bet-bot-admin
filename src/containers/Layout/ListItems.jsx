@@ -30,8 +30,8 @@ const ListItems = () => {
         Icon={SportsEsportsRoundedIcon}
       />
       <SidebarItem
-        label="Tournaments"
-        to="/tournaments"
+        label="Seasons"
+        to="/seasons"
         Icon={EmojiEventsRoundedIcon}
       />
       <SidebarItem label="Bets" to="/bets" Icon={MoneyRoundedIcon} />
