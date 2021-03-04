@@ -1,37 +1,46 @@
 import React, { useState } from 'react';
-import { Button, Grid, TextField, Typography } from '@material-ui/core';
+import {
+  Button,
+  Grid,
+  TextField,
+  Typography,
+  Card,
+  CardActionArea,
+  IconButton,
+  CardActions,
+} from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { DropzoneDialog } from 'material-ui-dropzone';
 import axios from 'axios';
 import getBaseUrl from '../../common/utils/getBaseUrl';
 
 const Message = () => {
-  const [value, setValue] = useState();
-  const [image] = useState();
+  const [message, setMessage] = useState('');
+  const [image, setImage] = useState(null);
+  const [imageName, setImageName] = useState(null);
   const [open, setOpen] = useState(false);
 
-  const uploadImage = files => {
-    const [file] = files;
-    // console.log(file);
-    axios
-      .post(
-        `${getBaseUrl()}/static/uploadImage`,
-        {
-          imageName: file.name,
-          file,
-        },
-        {
-          headers: {
-            'Content-Type': file.type,
-          },
-        },
-      )
-      .then(console.log);
+  const uploadImage = async files => {
+    try {
+      const [file] = files;
+      const data = new FormData();
+      data.append('file', file);
+      data.append('imageName', file.name);
+      setImage(URL.createObjectURL(file));
+      setImageName(file?.name);
+
+      // await axios.post(`${getBaseUrl()}/static/uploadImage`, data);
+    } catch (e) {
+      console.error('Error in uploading file', e);
+    }
+    setOpen(false);
   };
 
-  const sendMessage = message => {
+  const sendMessage = text => {
     axios
       .post(`${getBaseUrl()}/users/sendMessage`, {
-        message,
+        message: text,
+        image: imageName,
       })
       .then(() => alert('Message sended'));
   };
@@ -42,36 +51,29 @@ const Message = () => {
         <Typography variant="h5">
           <b>Send Message</b>
         </Typography>
-        <Typography variant="h7">
-          <span>
-            Сделать жирным - обернуть в {'<'}b{'>'}text{'<'}/b{'>'} ={'>'}
-            <b>text</b>
-            <br />
-            Сделать курсивом - обернуть в {'<'}i{'>'}text{'<'}/i{'>'} ={'>'}
-            <i>text</i>
-          </span>
-        </Typography>
       </Grid>
       <Grid item>
-        <TextField
-          fullWidth
-          label="Message"
-          variant="outlined"
-          multiline
-          rows={6}
-          value={value}
-          onChange={e => setValue(e.target.value)}
-        />
-      </Grid>
-      <Grid item>
-        <Button
-          fullWidth
-          variant="contained"
-          color="primary"
-          onClick={() => setOpen(true)}
-        >
-          Add Image
-        </Button>
+        {image ? (
+          <Card>
+            <CardActionArea>
+              <img src={image} width="100%" />
+            </CardActionArea>
+            <CardActions>
+              <IconButton onClick={() => setImage(null)}>
+                <DeleteIcon />
+              </IconButton>
+            </CardActions>
+          </Card>
+        ) : (
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={() => setOpen(true)}
+          >
+            Add Image
+          </Button>
+        )}
 
         <DropzoneDialog
           filesLimit={1}
@@ -84,11 +86,33 @@ const Message = () => {
         />
       </Grid>
       <Grid item>
+        <Typography>
+          <span>
+            Сделать жирным - обернуть в {'<'}b{'>'}text{'<'}/b{'> => '}
+            <b>text</b>
+            <br />
+            Сделать курсивом - обернуть в {'<'}i{'>'}text{'<'}/i{'> => '}
+            <i>text</i>
+          </span>
+        </Typography>
+      </Grid>
+      <Grid item>
+        <TextField
+          fullWidth
+          label="Message"
+          variant="outlined"
+          multiline
+          rows={6}
+          value={message}
+          onChange={e => setMessage(e.target.value)}
+        />
+      </Grid>
+      <Grid item>
         <Button
           fullWidth
           variant="contained"
           color="primary"
-          onClick={() => sendMessage(value, image)}
+          onClick={() => sendMessage(message, image)}
         >
           Send message
         </Button>
