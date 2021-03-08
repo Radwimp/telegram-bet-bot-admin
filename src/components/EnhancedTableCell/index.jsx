@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import TableCell from '@material-ui/core/TableCell';
+import Link from '@material-ui/core/Link';
 import Chip from '@material-ui/core/Chip';
 import Switch from '@material-ui/core/Switch';
 import EditIcon from '@material-ui/icons/Edit';
@@ -22,6 +23,12 @@ const EnhancedTableCell = ({
       return (
         <TableCell id={cell.id} component="th" scope="row">
           {row.id}
+        </TableCell>
+      );
+    case 'link':
+      return (
+        <TableCell key={cell.id}>
+          <Link href={row.link}>{row[cell.id]}</Link>
         </TableCell>
       );
     case 'chip':
@@ -79,7 +86,8 @@ const EnhancedTableCell = ({
 EnhancedTableCell.propTypes = {
   cell: PropTypes.shape({ type: PropTypes.string, id: PropTypes.string })
     .isRequired,
-  row: PropTypes.shape({ id: PropTypes.string }).isRequired,
+  row: PropTypes.shape({ id: PropTypes.string, link: PropTypes.string })
+    .isRequired,
   handleUpdate: PropTypes.func.isRequired,
   handleOpenModal: PropTypes.func.isRequired,
   handleDeleteItems: PropTypes.func.isRequired,

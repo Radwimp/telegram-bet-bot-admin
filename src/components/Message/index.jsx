@@ -79,7 +79,7 @@ const Message = () => {
 
         <DropzoneDialog
           filesLimit={1}
-          acceptedFiles={['image/png']}
+          acceptedFiles={['image/*']}
           cancelButtonText="cancel"
           submitButtonText="submit"
           open={open}
